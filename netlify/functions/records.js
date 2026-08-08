@@ -110,9 +110,10 @@ export default async (req) => {
         return json({ success: false, message: '缺少管理员凭证' }, 403);
       }
       const list = await readAll();
+      console.log('[records DELETE] id=', JSON.stringify(id), 'managerCode=', JSON.stringify(managerCode), 'list长度=', list.length, '所有id=', list.map((r) => r.id));
       const target = list.find((r) => r.id === id && r.managerCode === managerCode);
       if (!target) {
-        return json({ success: false, message: '记录不存在或无权删除' }, 404);
+        return json({ success: false, message: '记录不存在或无权删除', debug: { id, managerCode, listCount: list.length, ids: list.map((r) => ({ id: r.id, code: r.managerCode })) } }, 404);
       }
       const next = list.filter((r) => r.id !== id);
       await writeAll(next);
