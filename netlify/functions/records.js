@@ -1,31 +1,67 @@
 // ============================================
 // Netlify Function (现代 API): records API
 // 管理客户测评记录，按 managerCode 隔离
-// 数据持久化使用 Netlify Blobs（现代 API 下自动配置）
+// 数据持久化使用 Netlify Blobs（每条记录独立 key，避免整体读写一致性问题）
 // ============================================
 import { getStore } from '@netlify/blobs';
 
 const STORE_NAME = 'records';
 
-async function readAll() {
+/** 读取索引（所有记录 id 列表） */
+async function readIndex() {
   const store = getStore(STORE_NAME);
-  // 重试机制：Netlify Blobs 冷启动时偶尔返回 null
   let raw = null;
   for (let i = 0; i < 3; i++) {
     try {
-      raw = await store.get('list');
+      raw = await store.get('index');
       if (raw) break;
     } catch (e) {
-      console.error(`[records] readAll 第 ${i + 1} 次读取失败:`, e.message);
+      console.error(`[records] readIndex 第 ${i + 1} 次失败:`, e.message);
     }
     await new Promise((r) => setTimeout(r, 100));
   }
   return raw ? JSON.parse(raw) : [];
 }
 
-async function writeAll(list) {
+/** 写入索引 */
+async function writeIndex(ids) {
   const store = getStore(STORE_NAME);
-  await store.set('list', JSON.stringify(list));
+  await store.set('index', JSON.stringify(ids));
+}
+
+/** 读取单条记录 */
+async function readRecord(id) {
+  const store = getStore(STORE_NAME);
+  try {
+    const raw = await store.get(`record_${id}`);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    console.error(`[records] readRecord(${id}) 失败:`, e.message);
+    return null;
+  }
+}
+
+/** 写入单条记录 */
+async function writeRecord(record) {
+  const store = getStore(STORE_NAME);
+  await store.set(`record_${record.id}`, JSON.stringify(record));
+}
+
+/** 删除单条记录 */
+async function deleteRecord(id) {
+  const store = getStore(STORE_NAME);
+  try {
+    await store.delete(`record_${id}`);
+  } catch (e) {
+    console.error(`[records] deleteRecord(${id}) 失败:`, e.message);
+  }
+}
+
+/** 读取所有记录（通过索引逐条读取，过滤已删除的脏数据） */
+async function readAll() {
+  const ids = await readIndex();
+  const records = await Promise.all(ids.map((id) => readRecord(id)));
+  return records.filter(Boolean);
 }
 
 function json(data, status = 200) {
@@ -64,7 +100,9 @@ export default async (req) => {
         return json({ success: false, message: '缺少管理员凭证' }, 403);
       }
       const list = await readAll();
-      const filtered = list.filter((r) => r.managerCode === managerCode);
+      const filtered = list
+        .filter((r) => r.managerCode === managerCode)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       return json({ success: true, data: filtered });
     }
 
@@ -73,10 +111,11 @@ export default async (req) => {
       if (!managerCode) {
         return json({ success: false, message: '缺少管理员凭证' }, 403);
       }
-      const list = await readAll();
-      const found = list.find((r) => r.id === id && r.managerCode === managerCode);
-      if (!found) return json({ success: false, message: '记录不存在或无权访问' }, 404);
-      return json({ success: true, data: found });
+      const record = await readRecord(id);
+      if (!record || record.managerCode !== managerCode) {
+        return json({ success: false, message: '记录不存在或无权访问' }, 404);
+      }
+      return json({ success: true, data: record });
     }
 
     // POST /api/records —— 新增（必须含 managerCode）
@@ -93,14 +132,17 @@ export default async (req) => {
       if (!payload.managerCode) {
         return json({ success: false, message: '缺少服务人员凭证' }, 400);
       }
-      const list = await readAll();
       const record = {
         id: `r_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
         createdAt: new Date().toISOString(),
         ...payload
       };
-      list.unshift(record);
-      await writeAll(list);
+      // 1. 先写入记录本身
+      await writeRecord(record);
+      // 2. 再追加到索引
+      const ids = await readIndex();
+      ids.push(record.id);
+      await writeIndex(ids);
       return json({ success: true, data: record }, 201);
     }
 
@@ -109,14 +151,17 @@ export default async (req) => {
       if (!managerCode) {
         return json({ success: false, message: '缺少管理员凭证' }, 403);
       }
-      const list = await readAll();
-      console.log('[records DELETE] id=', JSON.stringify(id), 'managerCode=', JSON.stringify(managerCode), 'list长度=', list.length, '所有id=', list.map((r) => r.id));
-      const target = list.find((r) => r.id === id && r.managerCode === managerCode);
-      if (!target) {
-        return json({ success: false, message: '记录不存在或无权删除', debug: { id, managerCode, listCount: list.length, ids: list.map((r) => ({ id: r.id, code: r.managerCode })) } }, 404);
+      // 直接读取该条记录，不依赖索引
+      const record = await readRecord(id);
+      if (!record || record.managerCode !== managerCode) {
+        return json({ success: false, message: '记录不存在或无权删除' }, 404);
       }
-      const next = list.filter((r) => r.id !== id);
-      await writeAll(next);
+      // 1. 先删除记录本身
+      await deleteRecord(id);
+      // 2. 再从索引中移除（索引过时不影响删除正确性）
+      const ids = await readIndex();
+      const nextIds = ids.filter((x) => x !== id);
+      await writeIndex(nextIds);
       return json({ success: true, data: { id } });
     }
 
@@ -126,10 +171,13 @@ export default async (req) => {
         return json({ success: false, message: '缺少管理员凭证' }, 403);
       }
       const list = await readAll();
+      const toRemove = list.filter((r) => r.managerCode === managerCode);
       const remaining = list.filter((r) => r.managerCode !== managerCode);
-      const removedCount = list.length - remaining.length;
-      await writeAll(remaining);
-      return json({ success: true, data: { count: removedCount } });
+      // 逐条删除
+      await Promise.all(toRemove.map((r) => deleteRecord(r.id)));
+      // 重建索引（只保留剩余记录的 id）
+      await writeIndex(remaining.map((r) => r.id));
+      return json({ success: true, data: { count: toRemove.length } });
     }
 
     return json({ success: false, message: 'API 不存在' }, 404);
