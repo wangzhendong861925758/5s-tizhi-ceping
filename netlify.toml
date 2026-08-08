@@ -1,0 +1,14 @@
+# Netlify 部署配置
+[build]
+  # 静态文件根目录（前端 HTML/CSS/JS）
+  publish = "."
+  # Serverless Functions 目录
+  functions = "netlify/functions"
+
+# SPA 回退：客户端路由由前端处理
+# 注意：Netlify 会自动优先处理 /api/* 和 /.netlify/* 路径，不会被此规则覆盖
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false

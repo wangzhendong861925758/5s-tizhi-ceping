@@ -1,0 +1,16 @@
+# 依赖
+node_modules/
+.netlify/
+
+# 系统/编辑器
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.pai/
+
+# 本地测试数据
+data/records.json
+
+# 日志
+*.log

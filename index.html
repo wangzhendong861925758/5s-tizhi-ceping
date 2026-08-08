@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2e7d5b" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>5S体质测评</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./css/variables.css" />
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+  <link rel="stylesheet" href="./css/pages.css" />
+</head>
+<body>
+  <main class="entry-page">
+    <!-- 水墨群山图（多层叠加，由远及近） -->
+    <svg class="entry-mountains" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <!-- 远山：最浅，雾气感 -->
+      <path d="M0,620 L120,540 L240,580 L360,500 L480,560 L600,480 L720,540 L840,470 L960,530 L1080,460 L1200,520 L1320,470 L1440,540 L1440,900 L0,900 Z" fill="rgba(120,180,150,0.35)" />
+      <!-- 中远山 -->
+      <path d="M0,680 L100,600 L220,640 L340,560 L460,620 L580,540 L700,600 L820,530 L940,590 L1060,520 L1180,580 L1300,530 L1440,600 L1440,900 L0,900 Z" fill="rgba(74,124,94,0.5)" />
+      <!-- 中山 -->
+      <path d="M0,740 L80,660 L180,700 L300,620 L420,680 L540,600 L660,660 L780,590 L900,650 L1020,580 L1140,640 L1260,590 L1380,650 L1440,620 L1440,900 L0,900 Z" fill="rgba(46,90,64,0.65)" />
+      <!-- 近山：最深 -->
+      <path d="M0,800 L100,740 L220,780 L340,710 L460,770 L580,700 L700,760 L820,690 L940,750 L1060,680 L1180,740 L1300,690 L1420,750 L1440,740 L1440,900 L0,900 Z" fill="rgba(20,60,40,0.85)" />
+    </svg>
+    <!-- 雾气/留白装饰 -->
+    <div class="entry-mist entry-mist--1"></div>
+    <div class="entry-mist entry-mist--2"></div>
+
+    <div class="entry-inner">
+      <div class="entry-tag">默小乐 · 中医体质测评</div>
+      <h1 class="entry-title">
+        <span class="entry-title-line entry-title-line--1">5S</span>
+        <span class="entry-title-line entry-title-line--2">体质</span>
+        <span class="entry-title-line entry-title-line--3">测评</span>
+      </h1>
+      <p class="entry-subtitle">点击下方按钮开始填写问卷</p>
+
+      <div class="entry-cards">
+        <a class="entry-card entry-card--client" href="./client.html">
+          <div class="entry-card__icon">✎</div>
+          <div class="entry-card__name">开始测评</div>
+          <div class="entry-card__desc">填写体质测评问卷</div>
+          <div class="entry-card__arrow">→</div>
+        </a>
+      </div>
+
+      <div class="entry-footer">基于《中医体质分类与判定》标准</div>
+    </div>
+  </main>
+</body>
+</html>

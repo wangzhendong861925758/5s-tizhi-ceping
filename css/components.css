@@ -1,0 +1,288 @@
+/* ============================================
+   通用组件：导航 / 按钮 / 卡片 / 容器 / Toast
+   ============================================ */
+
+/* ---- 顶部导航 ---- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav__inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-sm) var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.nav__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-serif);
+  font-size: var(--font-size-lg);
+  font-weight: var(--fw-bold);
+  color: var(--color-primary);
+}
+
+.nav__brand-symbol {
+  font-size: 28px;
+  color: var(--color-accent);
+}
+
+.nav__brand-text {
+  letter-spacing: 1px;
+}
+
+.nav__menu {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.nav__link {
+  position: relative;
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  padding: 6px 0;
+  transition: color 0.2s;
+}
+
+.nav__link:hover {
+  color: var(--color-primary);
+}
+
+.nav__link--active {
+  color: var(--color-primary);
+  font-weight: var(--fw-semibold);
+}
+
+.nav__link--active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--color-primary);
+  border-radius: 1px;
+}
+
+/* ---- 容器 ---- */
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.container--narrow {
+  max-width: var(--content-width);
+}
+
+/* ---- 按钮 ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  font-size: var(--font-size-md);
+  font-weight: var(--fw-medium);
+  border-radius: var(--radius-button);
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.btn:active {
+  opacity: 0.9;
+  transform: scale(0.98);
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(200, 85, 61, 0.28);
+}
+
+.btn--ghost {
+  background: #fff;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn--ghost:active {
+  background: var(--color-primary-bg);
+}
+
+.btn--lg {
+  min-width: 200px;
+  height: 56px;
+  padding: 0 var(--space-xl);
+  font-size: var(--font-size-lg);
+  font-weight: var(--fw-semibold);
+}
+
+/* ---- 区块标题 ---- */
+.section-header {
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+
+.section-title {
+  font-family: var(--font-serif);
+  font-size: var(--font-size-xxl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  letter-spacing: 2px;
+}
+
+.section-subtitle {
+  margin-top: var(--space-xs);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
+
+/* ---- 页脚 ---- */
+.footer {
+  background: #fff;
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-lg) 0;
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* ---- Toast 提示 ---- */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background: rgba(29, 33, 41, 0.92);
+  color: #fff;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  white-space: pre-line;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease;
+  z-index: 9999;
+  max-width: 80vw;
+}
+
+.toast--show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* ---- 空状态 ---- */
+.empty-page {
+  text-align: center;
+  padding: 120px var(--space-lg);
+}
+
+.empty-page__icon {
+  font-size: 80px;
+  color: var(--color-text-disabled);
+  margin-bottom: var(--space-md);
+}
+
+.empty-page__title {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.empty-page__desc {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+  margin-bottom: var(--space-xl);
+}
+
+.error-page {
+  text-align: center;
+  padding: 120px var(--space-lg);
+  font-size: var(--font-size-xl);
+  color: var(--color-text-tertiary);
+}
+
+/* ================ 移动端竖屏适配 ================ */
+@media (max-width: 768px) {
+  .nav__inner {
+    height: 52px;
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .nav__brand {
+    font-size: var(--font-size-md);
+    gap: 4px;
+  }
+
+  .nav__brand-symbol {
+    font-size: 22px;
+  }
+
+  .nav__brand-text {
+    letter-spacing: 0.5px;
+    max-width: 60vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nav__menu {
+    gap: var(--space-sm);
+  }
+
+  .nav__link {
+    font-size: var(--font-size-sm);
+  }
+
+  .container {
+    padding: var(--space-md) var(--space-sm);
+  }
+
+  .btn--lg {
+    min-width: 0;
+    width: 100%;
+    height: 48px;
+    padding: 0 var(--space-md);
+    font-size: var(--font-size-md);
+  }
+
+  .btn--sm {
+    height: 30px;
+    padding: 0 10px;
+  }
+
+  .section-title {
+    letter-spacing: 1px;
+  }
+
+  .empty-page {
+    padding: 64px var(--space-sm);
+  }
+
+  .empty-page__icon {
+    font-size: 56px;
+  }
+
+  .error-page {
+    padding: 64px var(--space-sm);
+    font-size: var(--font-size-lg);
+  }
+
+  .toast {
+    max-width: 88vw;
+    padding: var(--space-xs) var(--space-md);
+  }
+}

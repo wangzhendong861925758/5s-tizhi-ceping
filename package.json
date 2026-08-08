@@ -1,0 +1,9 @@
+{
+  "name": "constitution-assessment",
+  "version": "1.0.0",
+  "description": "5S体质测评系统（客户端 + 管理端）",
+  "private": true,
+  "dependencies": {
+    "@netlify/blobs": "^8.0.0"
+  }
+}

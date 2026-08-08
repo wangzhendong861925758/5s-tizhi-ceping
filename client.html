@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2e7d5b" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>体质测评问卷 · 客户端</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./css/variables.css" />
+  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="stylesheet" href="./css/components.css" />
+  <link rel="stylesheet" href="./css/pages.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="./client.html">
+        <span class="nav__brand-symbol">☯</span>
+        <span class="nav__brand-text">5S体质测评</span>
+      </a>
+      <nav class="nav__menu">
+        <a class="nav__link" href="#" id="navCurrentUser" style="color:var(--color-primary);font-weight:600;"></a>
+        <a class="nav__link nav__link--active" href="#" id="navSwitchUser">切换用户</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="app" class="app">
+    <!-- 客户端由 client.js 渲染 -->
+  </main>
+
+  <script type="module" src="./js/client.js?v=20260807v5"></script>
+</body>
+</html>
