@@ -32,7 +32,7 @@ async function writeIndex(ids) {
 /** 读取单条记录（带重试，规避 Netlify Blobs 冷启动延迟） */
 async function readRecord(id) {
   const store = getStore(STORE_NAME);
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 6; i++) {
     try {
       const raw = await store.get(`record_${id}`);
       if (raw) return JSON.parse(raw);
@@ -40,7 +40,8 @@ async function readRecord(id) {
     } catch (e) {
       console.error(`[records] readRecord(${id}) 第 ${i + 1} 次失败:`, e.message);
     }
-    await new Promise((r) => setTimeout(r, 150));
+    // 递增延迟：100, 200, 400, 600, 800, 1000 ms
+    await new Promise((r) => setTimeout(r, 100 * (i + 1) * (i >= 2 ? 2 : 1)));
   }
   return null;
 }
