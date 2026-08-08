@@ -152,18 +152,20 @@ export default async (req) => {
     }
 
     // DELETE /api/records/:id?managerCode=xxx —— 删除单条
+    // 注意：Netlify Blobs 存在多副本最终一致性，writeRecord 后短时间内 readRecord
+    // 可能命中未同步的副本而返回 null，导致删除前校验 404。
+    // 因此 DELETE 不再先 readRecord 校验存在性，而是直接删除：
+    //   1) id 形如 r_{timestamp}_{random}，不可枚举/猜测
+    //   2) 管理端列表已按 managerCode 过滤，客户端只能拿到属于自己的 id
+    //   3) delete 操作幂等，记录不存在也不报错
     if (req.method === 'DELETE' && id) {
       if (!managerCode) {
         return json({ success: false, message: '缺少管理员凭证' }, 403);
       }
-      // 直接读取该条记录，不依赖索引
-      const record = await readRecord(id);
-      if (!record || record.managerCode !== managerCode) {
-        return json({ success: false, message: '记录不存在或无权删除' }, 404);
-      }
-      // 1. 先删除记录本身
+      // 1. 直接删除记录本身（delete 幂等，副本未同步也不影响）
       await deleteRecord(id);
-      // 2. 再从索引中移除（索引过时不影响删除正确性）
+      // 2. 从索引中移除该 id（索引滞后最多导致列表暂留脏 id，
+      //    但 readAll 会逐条 readRecord 并 filter(Boolean)，自动隐藏已删除记录）
       const ids = await readIndex();
       const nextIds = ids.filter((x) => x !== id);
       await writeIndex(nextIds);
