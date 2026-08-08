@@ -758,6 +758,7 @@ function renderCustomerRecords() {
         for (const r of dg.records) {
           await api.remove(r.id);
         }
+        showToast('删除成功');
         await reloadRecords();
         // 删除后若该客户分组仍有记录，留在记录列表页；否则返回客户列表
         const newGroups = groupRecordsByCustomer(state.records);
@@ -1175,6 +1176,7 @@ function renderDetail() {
       for (const r of records) {
         await api.remove(r.id);
       }
+      showToast('删除成功');
       await reloadRecords();
       // 删除后若该客户分组仍有记录，返回记录列表；否则返回客户列表
       const newGroups = groupRecordsByCustomer(state.records);
