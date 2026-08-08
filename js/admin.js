@@ -945,6 +945,12 @@ function renderDetail() {
             <h3 class="score-list-card__title">各体质得分明细</h3>
             <div class="score-list">
               ${safeScores(merged)
+                .slice()
+                .sort((a, b) => {
+                  // 按得分降序排列；得分相同时按体质序号（constitutionId）升序排列
+                  if (b.totalScore !== a.totalScore) return b.totalScore - a.totalScore;
+                  return (a.constitutionId || 0) - (b.constitutionId || 0);
+                })
                 .map((s) => {
                   const meta = CONSTITUTION_MAP[s.constitutionId];
                   const pct = Math.max(
