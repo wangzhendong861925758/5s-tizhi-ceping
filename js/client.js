@@ -30,7 +30,10 @@ const state = {
   answers: {},
   // 各问卷提交状态（已提交则该问卷视为"完成"，下次进入会提示是否重填）
   submittedSurveys: { lifestyle: false, bodyLanguage: false, survey: false },
-  startedAt: Date.now()
+  startedAt: Date.now(),
+  // 提交失败持久提示（避免用户误判提交成功）
+  // 结构: { type: 'survey'|'lifestyle'|'bodyLanguage', message: string, ts: number }
+  submitError: null
 };
 
 // ================ 会话持久化（长登录 + 进度保存） ================
@@ -677,6 +680,8 @@ function renderLifestyleSurveyStep() {
         </div>
       </div>
 
+      ${renderSubmitErrorBanner('lifestyle')}
+
       <div class="container container--narrow">
         <div class="survey-tip">
           请勾选符合您实际情况的条目（可多选）
@@ -731,9 +736,13 @@ function renderLifestyleSurveyStep() {
       showToast('如需提交，请至少勾选一项；或直接返回选择其他调查表');
       return;
     }
+    // 提交前清除上一次失败提示
+    state.submitError = null;
     // 单独提交生活习惯问卷
     handleSubmitSingle('lifestyle');
   });
+
+  bindSubmitErrorBanner('lifestyle');
 }
 
 // ================ Step 3.5: 身体语言自检表（勾选式，竖向排列） ================
@@ -759,6 +768,8 @@ function renderBodyLanguageStep() {
           <div class="survey-progress__fill" id="blFill" style="width:0%"></div>
         </div>
       </div>
+
+      ${renderSubmitErrorBanner('bodyLanguage')}
 
       <div class="container container--narrow">
         <div class="survey-tip">
@@ -819,9 +830,13 @@ function renderBodyLanguageStep() {
       showToast('如需提交，请至少勾选一项；或直接返回选择其他调查表');
       return;
     }
+    // 提交前清除上一次失败提示
+    state.submitError = null;
     // 单独提交身体语言问卷
     handleSubmitSingle('bodyLanguage');
   });
+
+  bindSubmitErrorBanner('bodyLanguage');
 }
 
 function refreshBodyLanguageView() {
@@ -916,6 +931,8 @@ function renderSurveyStep() {
         </div>
       </div>
 
+      ${renderSubmitErrorBanner('survey')}
+
       <div class="container container--narrow">
         <div class="survey-tip">
           请在每道题下方选择最符合您程度的选项
@@ -997,9 +1014,13 @@ function renderSurveyStep() {
       showToast('如需提交，请至少作答一题；或直接返回选择其他调查表');
       return;
     }
+    // 提交前清除上一次失败提示
+    state.submitError = null;
     // 单独提交5S体质测评问卷
     handleSubmitSingle('survey');
   });
+
+  bindSubmitErrorBanner('survey');
 }
 
 function refreshView() {
@@ -1081,14 +1102,23 @@ async function handleSubmitSingle(type) {
     await api.create(record);
     // 标记对应问卷为已提交
     state.submittedSurveys[type] = true;
+    // 提交成功，清除失败状态
+    state.submitError = null;
     // 保存会话进度
     saveClientSession();
     state.step = 'done';
     state.__lastSubmittedType = type;
     render();
   } catch (err) {
+    // 记录持久错误状态，在对应问卷页顶部显示横幅（不自动消失）
+    state.submitError = {
+      type,
+      message: err.message || '网络错误，请检查网络后重试',
+      ts: Date.now()
+    };
+    // 保留短 toast 即时反馈
     showToast('提交失败：' + (err.message || '网络错误'));
-    // 返回对应的问卷页
+    // 返回对应的问卷页（横幅会在该页顶部显示）
     if (type === 'lifestyle') state.step = 'lifestyleSurvey';
     else if (type === 'bodyLanguage') state.step = 'bodyLanguage';
     else state.step = 'survey';
@@ -1183,6 +1213,40 @@ function showToast(msg) {
   toast.__timer = setTimeout(() => {
     toast.classList.remove('toast--show');
   }, 2000);
+}
+
+/**
+ * 渲染提交失败持久横幅（仅在对应问卷页显示，不自动消失）
+ * @param {'survey'|'lifestyle'|'bodyLanguage'} type 当前问卷类型
+ * @returns {string} HTML 字符串（无错误时返回空字符串）
+ */
+function renderSubmitErrorBanner(type) {
+  if (!state.submitError || state.submitError.type !== type) return '';
+  const msg = state.submitError.message || '提交失败';
+  return `
+    <div class="submit-error-banner" id="submitErrorBanner">
+      <div class="submit-error-banner__icon">!</div>
+      <div class="submit-error-banner__body">
+        <div class="submit-error-banner__title">本次提交未成功，请重试</div>
+        <div class="submit-error-banner__desc">${escapeHtml(msg)}（您的填写内容已保留，无需重新填写）</div>
+      </div>
+      <button class="btn btn--primary btn--sm" id="btnRetrySubmit">重新提交</button>
+      <button class="btn btn--ghost btn--sm" id="btnDismissError">×</button>
+    </div>
+  `;
+}
+
+/** 绑定持久错误横幅的按钮事件（重试 / 忽略） */
+function bindSubmitErrorBanner(type) {
+  const banner = document.getElementById('submitErrorBanner');
+  if (!banner) return;
+  document.getElementById('btnRetrySubmit')?.addEventListener('click', () => {
+    handleSubmitSingle(type);
+  });
+  document.getElementById('btnDismissError')?.addEventListener('click', () => {
+    state.submitError = null;
+    render();
+  });
 }
 
 // ================ 切换用户功能（全局导航栏） ================
