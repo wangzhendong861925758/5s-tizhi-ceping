@@ -142,12 +142,20 @@ export default async (req) => {
         createdAt: new Date().toISOString(),
         ...payload
       };
-      // 1. 先写入记录本身
+      // 1. 写入记录本身
       await writeRecord(record);
-      // 2. 再追加到索引
+      // 2. 追加到索引
       const ids = await readIndex();
       ids.push(record.id);
       await writeIndex(ids);
+      // 3. 写入验证：重试读取记录本身，确保副本已同步
+      //    （Netlify Blobs 多副本最终一致性，写入后短时间内可能读不到）
+      //    客户端拿到 201 时，保证管理端列表/详情一定能读到这条记录
+      for (let i = 0; i < 5; i++) {
+        const verify = await readRecord(record.id);
+        if (verify) break;
+        await new Promise((r) => setTimeout(r, 200 * (i + 1)));
+      }
       return json({ success: true, data: record }, 201);
     }
 
