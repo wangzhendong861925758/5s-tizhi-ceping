@@ -148,12 +148,15 @@ export default async (req) => {
       const ids = await readIndex();
       ids.push(record.id);
       await writeIndex(ids);
-      // 3. 写入验证：重试读取记录本身，确保副本已同步
-      //    （Netlify Blobs 多副本最终一致性，写入后短时间内可能读不到）
-      //    客户端拿到 201 时，保证管理端列表/详情一定能读到这条记录
-      for (let i = 0; i < 5; i++) {
-        const verify = await readRecord(record.id);
-        if (verify) break;
+      // 3. 写入验证：确保 record_{id} 和 index 两个 key 都已同步到副本
+      //    Netlify Blobs 多副本最终一致性：不同 key 的同步进度可能不同，
+      //    仅验证 record_{id} 可读不能保证 index 可读。管理端列表依赖 index，
+      //    因此必须同时验证 index 包含新记录 id，客户端拿到 201 时才能确保
+      //    管理端列表/详情都能读到这条记录。
+      for (let i = 0; i < 6; i++) {
+        const verifyRecord = await readRecord(record.id);
+        const verifyIds = await readIndex();
+        if (verifyRecord && verifyIds.includes(record.id)) break;
         await new Promise((r) => setTimeout(r, 200 * (i + 1)));
       }
       return json({ success: true, data: record }, 201);
