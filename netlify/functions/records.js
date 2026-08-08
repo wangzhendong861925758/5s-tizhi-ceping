@@ -29,16 +29,20 @@ async function writeIndex(ids) {
   await store.set('index', JSON.stringify(ids));
 }
 
-/** 读取单条记录 */
+/** 读取单条记录（带重试，规避 Netlify Blobs 冷启动延迟） */
 async function readRecord(id) {
   const store = getStore(STORE_NAME);
-  try {
-    const raw = await store.get(`record_${id}`);
-    return raw ? JSON.parse(raw) : null;
-  } catch (e) {
-    console.error(`[records] readRecord(${id}) 失败:`, e.message);
-    return null;
+  for (let i = 0; i < 4; i++) {
+    try {
+      const raw = await store.get(`record_${id}`);
+      if (raw) return JSON.parse(raw);
+      // 读到 null 可能是冷启动，也可能是真不存在。重试几次确认
+    } catch (e) {
+      console.error(`[records] readRecord(${id}) 第 ${i + 1} 次失败:`, e.message);
+    }
+    await new Promise((r) => setTimeout(r, 150));
   }
+  return null;
 }
 
 /** 写入单条记录 */
