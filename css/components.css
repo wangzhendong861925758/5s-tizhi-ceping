@@ -401,36 +401,18 @@
   padding: var(--space-lg);
 }
 
-/* ========== 数字三角形（7个星位） ========== */
+/* ========== 数字三角形（房子形状） ========== */
 .numerology-triangle {
   position: relative;
-  max-width: 480px;
+  max-width: 380px;
   margin: 0 auto var(--space-lg);
   padding: var(--space-md);
 }
 
-/* 底部原始日期数字 */
-.numerology-triangle__raw {
-  display: flex;
-  justify-content: center;
-  gap: 60px;
-  font-size: var(--font-size-2xl);
-  font-weight: var(--fw-bold);
-  color: var(--color-text-secondary);
-  margin-bottom: var(--space-md);
-  font-family: var(--font-serif);
-}
-
-.numerology-triangle__raw span {
-  min-width: 48px;
-  text-align: center;
-}
-
-/* 主三角形+正方形图形容器 */
 .numerology-diagram {
   position: relative;
   width: 100%;
-  aspect-ratio: 1.2 / 1;
+  aspect-ratio: 1 / 0.95;
   margin: 0 auto;
 }
 
@@ -438,24 +420,24 @@
 .numerology-roof {
   position: absolute;
   top: 0;
-  left: 10%;
-  right: 10%;
-  height: 45%;
-  background: linear-gradient(180deg, #fef3e2 0%, #fff9f0 100%);
+  left: 8%;
+  right: 8%;
+  height: 50%;
+  background: #fffaf5;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  border: 2px solid #e8c9a8;
+  border: 2px solid #f0c8a0;
   border-bottom: none;
 }
 
 /* 正方形主体 */
 .numerology-square {
   position: absolute;
-  top: 45%;
-  left: 10%;
-  right: 10%;
-  height: 55%;
-  background: linear-gradient(180deg, #fff9f0 0%, #fffdf8 100%);
-  border: 2px solid #e8c9a8;
+  top: 50%;
+  left: 8%;
+  right: 8%;
+  height: 50%;
+  background: #fffaf5;
+  border: 2px solid #f0c8a0;
   border-top: none;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -467,154 +449,134 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: var(--font-size-3xl);
+  font-weight: var(--fw-bold);
+  color: #e67e22;
+  font-family: var(--font-serif);
+}
+
+.numerology-cell--m { grid-column: 1; grid-row: 1; border-right: 1px solid #f0c8a0; border-bottom: 1px solid #f0c8a0; }
+.numerology-cell--n { grid-column: 2; grid-row: 1; border-bottom: 1px solid #f0c8a0; }
+.numerology-cell--ij { grid-column: 1; grid-row: 2; border-right: 1px solid #f0c8a0; gap: 40px; font-size: var(--font-size-2xl); }
+.numerology-cell--kl { grid-column: 2; grid-row: 2; gap: 40px; font-size: var(--font-size-2xl); }
+
+/* 三角形顶角位置标号（1、2、3） - 在顶点外侧，只是位置序号 */
+.numerology-star-label {
+  position: absolute;
   font-size: var(--font-size-2xl);
   font-weight: var(--fw-bold);
   color: #e67e22;
   font-family: var(--font-serif);
 }
 
-.numerology-cell--m { grid-column: 1; grid-row: 1; border-right: 1px dashed #f0d9c0; border-bottom: 1px dashed #f0d9c0; }
-.numerology-cell--n { grid-column: 2; grid-row: 1; border-bottom: 1px dashed #f0d9c0; }
-.numerology-cell--ij { grid-column: 1; grid-row: 2; border-right: 1px dashed #f0d9c0; gap: 32px; font-size: var(--font-size-xl); }
-.numerology-cell--kl { grid-column: 2; grid-row: 2; gap: 32px; font-size: var(--font-size-xl); }
-
-/* 三角形内顶部三个数字（1,2,3 星位） */
-.numerology-star {
-  position: absolute;
-  font-size: var(--font-size-xl);
-  font-weight: var(--fw-bold);
-  color: #d35400;
-  font-family: var(--font-serif);
-}
-
-.numerology-star--1 { top: 8%; left: 28%; }
-.numerology-star--2 { top: 8%; right: 28%; }
-.numerology-star--3 { top: -2%; left: 50%; transform: translateX(-50%); }
+.numerology-star-label--1 { top: 0%; left: 20%; }
+.numerology-star-label--2 { top: 0%; right: 20%; }
+.numerology-star-label--3 { top: -8%; left: 50%; transform: translateX(-50%); }
 
 /* 星号 */
 .numerology-star-mark {
   position: absolute;
-  top: 22%;
+  top: 25%;
   left: 50%;
   transform: translateX(-50%);
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-2xl);
   color: #e67e22;
+  font-weight: var(--fw-bold);
 }
 
 /* 主性格数字（三角形中心） */
 .numerology-main {
   position: absolute;
-  top: 30%;
+  top: 35%;
   left: 50%;
   transform: translateX(-50%);
   font-size: 48px;
   font-weight: 900;
   color: #c0392b;
   font-family: var(--font-serif);
-  text-shadow: 0 2px 8px rgba(192, 57, 43, 0.2);
 }
 
-/* 外部数字通用 */
-.numerology-outer {
-  position: absolute;
-}
-
-.numerology-outer-num {
-  font-size: var(--font-size-xl);
-  font-weight: var(--fw-bold);
-  color: #e67e22;
-  font-family: var(--font-serif);
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: #fef3e2;
-  border: 2px solid #f0d9c0;
-}
-
-/* 左侧外部数字（工作/朋友 - 青年） */
-.numerology-outer--left {
-  left: -2%;
-  top: 55%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-md);
-}
-
+/* 左右公式 */
 .numerology-formula {
-  font-size: var(--font-size-lg);
+  position: absolute;
+  font-size: var(--font-size-2xl);
   color: #d35400;
   font-family: var(--font-serif);
   font-weight: var(--fw-semibold);
-  margin-bottom: var(--space-xs);
 }
 
-.numerology-outer-col {
+.numerology-formula--left {
+  left: -10%;
+  top: 30%;
+}
+
+.numerology-formula--right {
+  right: -10%;
+  top: 30%;
+}
+
+/* 底部原始日期数字 */
+.numerology-triangle__raw {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
+  justify-content: center;
+  gap: 56px;
+  font-size: var(--font-size-xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  margin-top: var(--space-md);
+  font-family: var(--font-serif);
 }
 
-/* 右侧外部数字（家庭 - 晚年） */
-.numerology-outer--right {
-  right: -2%;
-  top: 55%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-md);
+.numerology-triangle__raw span {
+  min-width: 40px;
+  text-align: center;
 }
 
-/* 顶部外部数字（儿女/下属 - 中年） */
-.numerology-outer--top {
-  top: -15%;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: var(--space-xl);
-}
-
-/* ========== 核心数字摘要 ========== */
-.numerology-summary {
+/* ========== 核心数字摘要 + 联动数字（左右分栏） ========== */
+.numerology-bottom {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: var(--space-md);
-  margin-bottom: var(--space-lg);
-  padding: var(--space-md);
-  background: #fffdf8;
   border-radius: var(--radius-md);
+  overflow: hidden;
   border: 1px solid #f5e6d3;
 }
 
+.numerology-summary {
+  padding: var(--space-md);
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
 .numerology-summary__item {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .numerology-summary__label {
   font-size: var(--font-size-md);
   color: var(--color-text-secondary);
-  margin-bottom: var(--space-xs);
 }
 
 .numerology-summary__value {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
   font-weight: 900;
-  color: #e67e22;
+  color: #333;
   font-family: var(--font-serif);
 }
 
 .numerology-summary__value--code {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
 }
 
-/* ========== 12组联合密码 ========== */
+/* ========== 12组联合密码（联动数字） ========== */
 .numerology-union {
-  margin-top: var(--space-lg);
+  padding: var(--space-md);
+  background: #fff;
+  border-left: 1px solid #f5e6d3;
 }
 
 .numerology-union__title {
@@ -622,32 +584,21 @@
   font-weight: var(--fw-semibold);
   color: var(--color-text-secondary);
   text-align: center;
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-sm);
 }
 
 .numerology-union__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-sm);
+  gap: var(--space-sm) var(--space-md);
 }
 
 .numerology-union__code {
   text-align: center;
-  padding: var(--space-sm);
-  background: #fff9f0;
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-xl);
   font-weight: var(--fw-bold);
-  color: #d35400;
+  color: #333;
   font-family: var(--font-serif);
-  border: 1px solid #f5e6d3;
-  transition: all 0.2s;
-}
-
-.numerology-union__code:hover {
-  background: #fef3e2;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(230, 126, 34, 0.15);
 }
 
 /* ========== 移动端适配 ========== */
@@ -670,67 +621,67 @@
   }
 
   .numerology-triangle__raw {
-    gap: 28px;
-    font-size: var(--font-size-xl);
+    gap: 24px;
+    font-size: var(--font-size-lg);
   }
 
   .numerology-triangle__raw span {
-    min-width: 36px;
+    min-width: 32px;
   }
 
   .numerology-cell {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-2xl);
   }
 
   .numerology-cell--ij,
   .numerology-cell--kl {
-    gap: 16px;
-    font-size: var(--font-size-lg);
+    gap: 20px;
+    font-size: var(--font-size-xl);
   }
 
   .numerology-main {
     font-size: 36px;
   }
 
-  .numerology-star {
-    font-size: var(--font-size-lg);
-  }
-
-  .numerology-outer-num {
-    font-size: var(--font-size-md);
-    width: 32px;
-    height: 32px;
+  .numerology-star-label {
+    font-size: var(--font-size-xl);
   }
 
   .numerology-formula {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-lg);
   }
 
-  .numerology-summary {
+  .numerology-formula--left {
+    left: -2%;
+  }
+
+  .numerology-formula--right {
+    right: -2%;
+  }
+
+  .numerology-bottom {
     grid-template-columns: 1fr;
-    gap: var(--space-sm);
+  }
+
+  .numerology-union {
+    border-left: none;
+    border-top: 1px solid #f5e6d3;
   }
 
   .numerology-union__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-xs) var(--space-sm);
   }
 
   .numerology-union__code {
-    font-size: var(--font-size-md);
-    padding: var(--space-xs);
+    font-size: var(--font-size-lg);
   }
 
-  .numerology-outer--left,
-  .numerology-outer--right {
-    gap: var(--space-xs);
+  .numerology-summary {
+    gap: var(--space-sm);
   }
 
-  .numerology-outer-col {
-    gap: var(--space-xs);
-  }
-
-  .numerology-outer--top {
-    gap: var(--space-md);
-    top: -12%;
+  .numerology-star-mark {
+    font-size: var(--font-size-lg);
   }
 }

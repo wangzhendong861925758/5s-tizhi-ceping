@@ -910,12 +910,6 @@ function renderDetail() {
             <div class="numerology-card__body">
               <!-- 数字三角形图 -->
               <div class="numerology-triangle">
-                <div class="numerology-triangle__raw">
-                  <span>${numerology.rawDigits.day}</span>
-                  <span>${numerology.rawDigits.month}</span>
-                  <span>${numerology.rawDigits.yearFirstHalf}</span>
-                  <span>${numerology.rawDigits.yearSecondHalf}</span>
-                </div>
                 <div class="numerology-diagram">
                   <!-- 三角形屋顶 -->
                   <div class="numerology-roof"></div>
@@ -932,60 +926,50 @@ function renderDetail() {
                       <span>${numerology.triangle.inner.L}</span>
                     </div>
                   </div>
-                  <!-- 三角形顶部三个数字（1,2,3星位） -->
-                  <span class="numerology-star numerology-star--1">${numerology.triangle.top.left}</span>
-                  <span class="numerology-star numerology-star--2">${numerology.triangle.top.right}</span>
-                  <span class="numerology-star numerology-star--3">${numerology.triangle.top.P}</span>
-                  <div class="numerology-star-mark">✳</div>
+                  <!-- 三角形顶部数字标号1、2、3（位置序号，不是计算出的数字） -->
+                  <span class="numerology-star-label numerology-star-label--1">1</span>
+                  <span class="numerology-star-label numerology-star-label--2">2</span>
+                  <span class="numerology-star-label numerology-star-label--3">3</span>
+                  <div class="numerology-star-mark">*</div>
                   <div class="numerology-main">${numerology.mainCharacter}</div>
-                  <!-- 左侧外部数字（工作/朋友 - 青年 21-40岁） -->
-                  <div class="numerology-outer numerology-outer--left">
-                    <div class="numerology-formula">${numerology.triangle.left.T}${numerology.triangle.left.S}=${numerology.triangle.left.U}</div>
-                    <div class="numerology-outer-col">
-                      <span class="numerology-outer-num">${numerology.triangle.left.T}</span>
-                      <span class="numerology-outer-num">${numerology.triangle.left.S}</span>
-                      <span class="numerology-outer-num">${numerology.triangle.left.U}</span>
-                    </div>
-                  </div>
-                  <!-- 右侧外部数字（家庭 - 晚年 61岁+） -->
-                  <div class="numerology-outer numerology-outer--right">
-                    <div class="numerology-formula">${numerology.triangle.right.V}${numerology.triangle.right.W}=${numerology.triangle.right.X}</div>
-                    <div class="numerology-outer-col">
-                      <span class="numerology-outer-num">${numerology.triangle.right.V}</span>
-                      <span class="numerology-outer-num">${numerology.triangle.right.W}</span>
-                      <span class="numerology-outer-num">${numerology.triangle.right.X}</span>
-                    </div>
-                  </div>
-                  <!-- 顶部外部数字（儿女/下属 - 中年 41-60岁） -->
-                  <div class="numerology-outer numerology-outer--top">
-                    <span class="numerology-outer-num">${numerology.triangle.top.left}</span>
-                    <span class="numerology-outer-num">${numerology.triangle.top.P}</span>
-                    <span class="numerology-outer-num">${numerology.triangle.top.right}</span>
-                  </div>
+                  <!-- 左侧公式 U=TS，例如 3=57 -->
+                  <div class="numerology-formula numerology-formula--left">${numerology.triangle.left.U}=${numerology.triangle.left.T}${numerology.triangle.left.S}</div>
+                  <!-- 右侧公式 VW=X，例如 18=9 -->
+                  <div class="numerology-formula numerology-formula--right">${numerology.triangle.right.V}${numerology.triangle.right.W}=${numerology.triangle.right.X}</div>
+                </div>
+                <!-- 底部原始日期数字 -->
+                <div class="numerology-triangle__raw">
+                  <span>${numerology.rawDigits.day}</span>
+                  <span>${numerology.rawDigits.month}</span>
+                  <span>${numerology.rawDigits.yearFirstHalf}</span>
+                  <span>${numerology.rawDigits.yearSecondHalf}</span>
                 </div>
               </div>
 
-              <!-- 核心数字摘要 -->
-              <div class="numerology-summary">
-                <div class="numerology-summary__item">
-                  <div class="numerology-summary__label">内心数字</div>
-                  <div class="numerology-summary__value">${numerology.innerCode}</div>
+              <!-- 核心数字摘要 + 联动数字（左右分栏） -->
+              <div class="numerology-bottom">
+                <!-- 核心数字摘要 -->
+                <div class="numerology-summary">
+                  <div class="numerology-summary__item">
+                    <div class="numerology-summary__label">内心数字</div>
+                    <div class="numerology-summary__value">${numerology.innerCode}</div>
+                  </div>
+                  <div class="numerology-summary__item">
+                    <div class="numerology-summary__label">潜意识数字</div>
+                    <div class="numerology-summary__value">${numerology.subconsciousCode}</div>
+                  </div>
+                  <div class="numerology-summary__item">
+                    <div class="numerology-summary__label">晚年数字</div>
+                    <div class="numerology-summary__value numerology-summary__value--code">${numerology.laterYearsCode}</div>
+                  </div>
                 </div>
-                <div class="numerology-summary__item">
-                  <div class="numerology-summary__label">潜意识数字</div>
-                  <div class="numerology-summary__value">${numerology.subconsciousCode}</div>
-                </div>
-                <div class="numerology-summary__item">
-                  <div class="numerology-summary__label">晚年数字</div>
-                  <div class="numerology-summary__value numerology-summary__value--code">${numerology.laterYearsCode}</div>
-                </div>
-              </div>
 
-              <!-- 联动数字（联合密码） -->
-              <div class="numerology-union">
-                <div class="numerology-union__title">联动数字（12组联合密码）</div>
-                <div class="numerology-union__grid">
-                  ${numerology.unionCodes.map(code => `<div class="numerology-union__code">${[...code].sort().join('')}</div>`).join('')}
+                <!-- 联动数字（联合密码） -->
+                <div class="numerology-union">
+                  <div class="numerology-union__title">联动数字</div>
+                  <div class="numerology-union__grid">
+                    ${numerology.unionCodes.map(code => `<div class="numerology-union__code">${code}</div>`).join('')}
+                  </div>
                 </div>
               </div>
             </div>

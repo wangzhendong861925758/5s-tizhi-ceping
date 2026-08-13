@@ -61,9 +61,9 @@ export function calculateNumerology(birthdayStr) {
   const W = addDigits(L + N);
   const X = addDigits(V + W);
 
-  const topLeft = addDigits(N + O);
-  const topRight = addDigits(M + O);
-  const P = addDigits(topLeft + topRight);
+  const topLeft = addDigits(I + M + T);
+  const topRight = addDigits(K + N + V);
+  const P = U;
 
   const innerCode = addDigits(M + N + O);
   const subconsciousCode = addDigits(I + L + O);
@@ -71,16 +71,16 @@ export function calculateNumerology(birthdayStr) {
 
   const unionCodes = [
     `${I}${J}${M}`,
-    `${K}${L}${N}`,
-    `${M}${N}${O}`,
     `${I}${M}${T}`,
+    `${M}${O}${topRight}`,
+    `${M}${N}${O}`,
+    `${K}${L}${N}`,
     `${J}${M}${S}`,
-    `${T}${S}${U}`,
-    `${topRight}${O}${P}`,
     `${N}${O}${topLeft}`,
-    `${topLeft}${P}${topRight}`,
-    `${K}${N}${V}`,
     `${L}${N}${W}`,
+    `${K}${N}${V}`,
+    `${T}${S}${U}`,
+    [topLeft, P, topRight].sort().join(''),
     `${V}${W}${X}`,
   ];
 
@@ -100,7 +100,7 @@ export function calculateNumerology(birthdayStr) {
     motherGene: `${K}${L}${N}`,
     sittingCode: `${M}${N}${O}`,
     youthCode: `${T}${S}${U}`,
-    middleCode: `${topLeft}${P}${topRight}`,
+    middleCode: [topLeft, P, topRight].sort((a, b) => a - b).join(''),
     unionCodes,
     rawDigits: {
       day: `${String(day).padStart(2, '0')}`,
