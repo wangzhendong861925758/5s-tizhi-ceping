@@ -908,58 +908,55 @@ function renderDetail() {
               <div class="numerology-card__subtitle">基于阳历生日 ${escapeHtml(numerology.birthday)} 计算 · 主性格 ${numerology.mainCharacter} 号人</div>
             </div>
             <div class="numerology-card__body">
-              <!-- 数字三角形图 -->
-              <div class="numerology-triangle">
-                <!-- 上外翼（晚年/天纹线） -->
-                <div class="numerology-top-wing">
-                  <span class="numerology-top-wing__apex">${numerology.outer.top.apex}</span>
-                  <div class="numerology-formula numerology-formula--top">${numerology.formulas.top}</div>
-                  <div class="numerology-top-wing__pair">
-                    <span class="numerology-top-wing__num">${numerology.outer.top.left}</span>
-                    <span class="numerology-top-wing__num">${numerology.outer.top.right}</span>
+              <!-- 数字房子图（严格按参考图布局） -->
+              <div class="numerology-house">
+                <!-- 顶端数字（最顶端位） -->
+                <div class="n-house__apex">${numerology.outer.top.apex}</div>
+                <!-- 第二行：位置1+左顶外位，位置2+右顶外位 -->
+                <div class="n-house__top-pair">
+                  <div class="n-house__top-pos n-house__top-pos--1">
+                    <span class="n-house__pos-label">1</span>
+                    <span class="n-house__pos-num">${numerology.outer.top.left}</span>
+                  </div>
+                  <div class="n-house__top-pos n-house__top-pos--2">
+                    <span class="n-house__pos-label">2</span>
+                    <span class="n-house__pos-num">${numerology.outer.top.right}</span>
                   </div>
                 </div>
-
-                <!-- 中间区域：左外翼 + 三角形 + 右外翼 -->
-                <div class="numerology-mid-wing">
-                  <!-- 左外翼（事业/父亲线，从下到上：S→T→U） -->
-                  <div class="numerology-side-wing numerology-side-wing--left">
-                    <span class="numerology-wing-num">${numerology.outer.left.apex}</span>
-                    <div class="numerology-formula numerology-formula--left">${numerology.formulas.left}</div>
-                    <span class="numerology-wing-num">${numerology.outer.left.top}</span>
-                    <span class="numerology-wing-num">${numerology.outer.left.bottom}</span>
+                <!-- 第三行：左右公式 -->
+                <div class="n-house__formula-row">
+                  <div class="n-house__formula n-house__formula--left">${numerology.formulas.left}</div>
+                  <div class="n-house__formula n-house__formula--right">${numerology.formulas.right}</div>
+                </div>
+                <!-- 三角屋顶 + 正方形主体 -->
+                <div class="n-house__body">
+                  <!-- 三角形（屋顶） -->
+                  <div class="n-house__roof">
+                    <div class="n-house__star">*</div>
+                    <div class="n-house__main">${numerology.mainCharacter}</div>
                   </div>
-
-                  <!-- 中心三角形+正方形 -->
-                  <div class="numerology-diagram">
-                    <div class="numerology-roof"></div>
-                    <div class="numerology-square">
-                      <div class="numerology-cell numerology-cell--m">${numerology.inner.M}</div>
-                      <div class="numerology-cell numerology-cell--n">${numerology.inner.N}</div>
-                      <div class="numerology-cell numerology-cell--ij">
+                  <!-- 正方形（主体） -->
+                  <div class="n-house__square">
+                    <!-- 上层：M 和 N -->
+                    <div class="n-house__row n-house__row--mid">
+                      <div class="n-house__cell n-house__cell--m">${numerology.inner.M}</div>
+                      <div class="n-house__cell n-house__cell--n">${numerology.inner.N}</div>
+                    </div>
+                    <!-- 下层：I J 和 K L -->
+                    <div class="n-house__row n-house__row--bot">
+                      <div class="n-house__cell n-house__cell--ij">
                         <span>${numerology.inner.I}</span>
                         <span>${numerology.inner.J}</span>
                       </div>
-                      <div class="numerology-cell numerology-cell--kl">
+                      <div class="n-house__cell n-house__cell--kl">
                         <span>${numerology.inner.K}</span>
                         <span>${numerology.inner.L}</span>
                       </div>
                     </div>
-                    <div class="numerology-star-mark">*</div>
-                    <div class="numerology-main">${numerology.mainCharacter}</div>
-                  </div>
-
-                  <!-- 右外翼（家庭/母亲线，从下到上：W→V→X） -->
-                  <div class="numerology-side-wing numerology-side-wing--right">
-                    <span class="numerology-wing-num">${numerology.outer.right.apex}</span>
-                    <div class="numerology-formula numerology-formula--right">${numerology.formulas.right}</div>
-                    <span class="numerology-wing-num">${numerology.outer.right.top}</span>
-                    <span class="numerology-wing-num">${numerology.outer.right.bottom}</span>
                   </div>
                 </div>
-
                 <!-- 底部原始日期数字 -->
-                <div class="numerology-triangle__raw">
+                <div class="n-house__raw">
                   <span>${numerology.rawDigits.day}</span>
                   <span>${numerology.rawDigits.month}</span>
                   <span>${numerology.rawDigits.yearFirstHalf}</span>

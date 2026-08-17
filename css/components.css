@@ -403,149 +403,107 @@
   padding: var(--space-lg);
 }
 
-/* ========== 数字三角形整体容器 ========== */
-.numerology-triangle {
+/* ========== 数字房子图（严格按参考图布局） ========== */
+.numerology-house {
   position: relative;
-  max-width: 560px;
+  max-width: 520px;
   margin: 0 auto var(--space-lg);
-  padding: var(--space-md);
+  padding: 40px 80px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-sm);
 }
 
-/* ========== 上外翼（晚年/天纹线，顶部垂直堆叠） ==========
-   DOM顺序：apex → 上公式 → pair(left, right)
-   视觉从上到下：最顶端位 → 公式 → 左顶外位/右顶外位
-   ============================================ */
-.numerology-top-wing {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: var(--space-xs) 0;
-}
-
-.numerology-top-wing__apex {
-  font-size: 34px;
+/* 最顶端位数字 */
+.n-house__apex {
+  font-size: 38px;
   font-weight: 900;
-  color: #c0392b;
+  color: #d35400;
   font-family: var(--font-serif);
   line-height: 1;
-  text-shadow: 0 1px 2px rgba(192, 57, 43, 0.15);
+  margin-bottom: 4px;
 }
 
-.numerology-top-wing__pair {
+/* 第二行：位置1+左顶外位，位置2+右顶外位 */
+.n-house__top-pair {
   display: flex;
-  gap: 90px;
-  align-items: center;
+  justify-content: space-between;
+  width: 240px;
+  margin-bottom: 2px;
 }
 
-.numerology-top-wing__num {
-  font-size: 24px;
+.n-house__top-pos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.n-house__top-pos--1 { align-items: flex-end; padding-right: 8px; }
+.n-house__top-pos--2 { align-items: flex-start; padding-left: 8px; }
+
+.n-house__pos-label {
+  font-size: 18px;
+  color: #e6a46a;
+  font-weight: 500;
+  font-family: var(--font-serif);
+  line-height: 1;
+}
+
+.n-house__pos-num {
+  font-size: 28px;
   font-weight: 700;
   color: #d35400;
   font-family: var(--font-serif);
   line-height: 1;
 }
 
-/* ========== 中间区域：左外翼 + 中心三角形 + 右外翼 ========== */
-.numerology-mid-wing {
+/* 第三行：左右公式 */
+.n-house__formula-row {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-sm);
+  justify-content: space-between;
   width: 100%;
+  position: absolute;
+  top: 72px;
+  left: 0;
+  right: 0;
+  padding: 0 10px;
 }
 
-/* ========== 左右外翼（垂直列） ==========
-   DOM顺序：apex → 公式 → top → bottom
-   视觉从上到下：外翼顶端位 → 公式 → 上外位 → 下外位
-   （对应规则：从下到上为 下外位→上外位→顶端位）
-   ============================================ */
-.numerology-side-wing {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 96px;
-  padding: var(--space-xs) 4px;
-}
-
-.numerology-side-wing--left {
-  align-items: flex-end;
-}
-
-.numerology-side-wing--right {
-  align-items: flex-start;
-}
-
-.numerology-wing-num {
-  font-size: 22px;
+.n-house__formula {
+  font-size: 28px;
+  color: #d35400;
+  font-family: var(--font-serif);
   font-weight: 700;
-  color: #d35400;
-  font-family: var(--font-serif);
-  line-height: 1.2;
-  min-width: 28px;
-  text-align: center;
-}
-
-/* 顶端位（首子元素）放大并使用主红色 */
-.numerology-side-wing .numerology-wing-num:first-of-type {
-  font-size: 30px;
-  color: #c0392b;
-  font-weight: 900;
-  text-shadow: 0 1px 2px rgba(192, 57, 43, 0.15);
-}
-
-/* ========== 公式（结果在前，加数空格分隔） ========== */
-.numerology-formula {
-  font-size: var(--font-size-md);
-  color: #d35400;
-  font-family: var(--font-serif);
-  font-weight: var(--fw-semibold);
-  background: #fff5eb;
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  border: 1px dashed #f0c8a0;
   white-space: nowrap;
   letter-spacing: 1px;
+  line-height: 1;
 }
 
-.numerology-formula--top {
-  margin: 2px 0;
-}
+.n-house__formula--left { text-align: right; }
+.n-house__formula--right { text-align: left; }
 
-/* ========== 中心三角形+正方形（房子形状） ========== */
-.numerology-diagram {
+/* 房子主体（三角形屋顶 + 正方形） */
+.n-house__body {
   position: relative;
-  width: 220px;
-  aspect-ratio: 1 / 0.95;
-  flex-shrink: 0;
+  width: 240px;
 }
 
 /* 三角形屋顶 */
-.numerology-roof {
-  position: absolute;
-  top: 0;
-  left: 8%;
-  right: 8%;
-  height: 50%;
+.n-house__roof {
+  width: 100%;
+  height: 120px;
   background: #fffaf5;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   border: 2px solid #f0c8a0;
   border-bottom: none;
+  position: relative;
 }
 
 /* 正方形主体 */
-.numerology-square {
-  position: absolute;
-  top: 50%;
-  left: 8%;
-  right: 8%;
-  height: 50%;
+.n-house__square {
+  width: 100%;
+  height: 180px;
   background: #fffaf5;
   border: 2px solid #f0c8a0;
   border-top: none;
@@ -554,59 +512,59 @@
   grid-template-rows: 1fr 1fr;
 }
 
-/* 正方形内格子 */
-.numerology-cell {
+/* 正方形格子 */
+.n-house__cell {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--font-size-3xl);
-  font-weight: var(--fw-bold);
+  font-size: 36px;
+  font-weight: 700;
   color: #e67e22;
   font-family: var(--font-serif);
 }
 
-.numerology-cell--m { grid-column: 1; grid-row: 1; border-right: 1px solid #f0c8a0; border-bottom: 1px solid #f0c8a0; }
-.numerology-cell--n { grid-column: 2; grid-row: 1; border-bottom: 1px solid #f0c8a0; }
-.numerology-cell--ij { grid-column: 1; grid-row: 2; border-right: 1px solid #f0c8a0; gap: 40px; font-size: var(--font-size-2xl); }
-.numerology-cell--kl { grid-column: 2; grid-row: 2; gap: 40px; font-size: var(--font-size-2xl); }
+.n-house__cell--m { border-right: 1px solid #f0c8a0; border-bottom: 1px solid #f0c8a0; }
+.n-house__cell--n { border-bottom: 1px solid #f0c8a0; }
+.n-house__cell--ij { border-right: 1px solid #f0c8a0; gap: 36px; font-size: 32px; }
+.n-house__cell--kl { gap: 36px; font-size: 32px; }
 
-/* 星号（中心标记） */
-.numerology-star-mark {
+/* 星号 */
+.n-house__star {
   position: absolute;
-  top: 25%;
+  top: 30px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: var(--font-size-2xl);
+  font-size: 28px;
   color: #e67e22;
-  font-weight: var(--fw-bold);
+  font-weight: 700;
 }
 
-/* 主性格数字（三角形中心） */
-.numerology-main {
+/* 主性格数字（三角形中心，红色大字） */
+.n-house__main {
   position: absolute;
-  top: 35%;
+  top: 55px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 48px;
+  font-size: 52px;
   font-weight: 900;
   color: #c0392b;
   font-family: var(--font-serif);
   text-shadow: 0 1px 3px rgba(192, 57, 43, 0.2);
 }
 
-/* ========== 底部原始日期数字 ========== */
-.numerology-triangle__raw {
+/* 底部原始日期数字 */
+.n-house__raw {
   display: flex;
   justify-content: center;
-  gap: 56px;
-  font-size: var(--font-size-xl);
-  font-weight: var(--fw-bold);
+  gap: 52px;
+  font-size: 26px;
+  font-weight: 700;
   color: var(--color-text-primary);
-  margin-top: var(--space-sm);
+  margin-top: 16px;
   font-family: var(--font-serif);
 }
 
-.numerology-triangle__raw span {
+.n-house__raw span {
   min-width: 40px;
   text-align: center;
 }
@@ -729,83 +687,75 @@
     padding: var(--space-md);
   }
 
-  .numerology-triangle {
+  .numerology-house {
     max-width: 100%;
-    padding: var(--space-xs);
-    gap: 6px;
+    padding: 30px 60px 0;
   }
 
-  .numerology-top-wing {
-    gap: 4px;
-    padding: 4px 0;
+  .n-house__apex {
+    font-size: 28px;
   }
 
-  .numerology-top-wing__apex {
-    font-size: 26px;
+  .n-house__top-pair {
+    width: 180px;
   }
 
-  .numerology-top-wing__pair {
-    gap: 56px;
+  .n-house__pos-label {
+    font-size: 14px;
   }
 
-  .numerology-top-wing__num {
-    font-size: 20px;
+  .n-house__pos-num {
+    font-size: 22px;
   }
 
-  .numerology-mid-wing {
-    gap: 4px;
+  .n-house__formula-row {
+    top: 56px;
+    padding: 0 6px;
   }
 
-  .numerology-side-wing {
-    width: 72px;
-    gap: 6px;
-    padding: 4px 2px;
+  .n-house__formula {
+    font-size: 22px;
   }
 
-  .numerology-wing-num {
-    font-size: 18px;
-    min-width: 24px;
+  .n-house__body {
+    width: 180px;
   }
 
-  .numerology-side-wing .numerology-wing-num:first-of-type {
+  .n-house__roof {
+    height: 90px;
+  }
+
+  .n-house__square {
+    height: 136px;
+  }
+
+  .n-house__cell {
+    font-size: 28px;
+  }
+
+  .n-house__cell--ij,
+  .n-house__cell--kl {
+    gap: 24px;
     font-size: 24px;
   }
 
-  .numerology-formula {
-    font-size: var(--font-size-sm);
-    padding: 2px 6px;
-    letter-spacing: 0.5px;
+  .n-house__star {
+    font-size: 22px;
+    top: 22px;
   }
 
-  .numerology-diagram {
-    width: 170px;
+  .n-house__main {
+    font-size: 40px;
+    top: 42px;
   }
 
-  .numerology-cell {
-    font-size: var(--font-size-2xl);
+  .n-house__raw {
+    gap: 28px;
+    font-size: 20px;
+    margin-top: 10px;
   }
 
-  .numerology-cell--ij,
-  .numerology-cell--kl {
-    gap: 20px;
-    font-size: var(--font-size-xl);
-  }
-
-  .numerology-main {
-    font-size: 36px;
-  }
-
-  .numerology-star-mark {
-    font-size: var(--font-size-lg);
-  }
-
-  .numerology-triangle__raw {
-    gap: 24px;
-    font-size: var(--font-size-lg);
-    margin-top: 4px;
-  }
-
-  .numerology-triangle__raw span {
+  .n-house__raw span {
     min-width: 32px;
   }
 
