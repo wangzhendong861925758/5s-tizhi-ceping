@@ -910,31 +910,54 @@ function renderDetail() {
             <div class="numerology-card__body">
               <!-- 数字房子图（SVG精确布局，1:1复刻参考图） -->
               <div class="numerology-house">
-                <svg class="n-house__svg" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
-                  <!-- 三角形屋顶：顶点(200,65)，底角(65,200)(335,200) -->
-                  <polygon points="200,65 65,200 335,200" fill="#fffaf5" stroke="#f0c8a0" stroke-width="2"/>
-                  <!-- 正方形：x=65~335, y=200~460 -->
-                  <rect x="65" y="200" width="270" height="260" fill="#fffaf5" stroke="#f0c8a0" stroke-width="2"/>
-                  <line x1="200" y1="200" x2="200" y2="460" stroke="#f0c8a0" stroke-width="1.5"/>
-                  <line x1="65" y1="330" x2="335" y2="330" stroke="#f0c8a0" stroke-width="1.5"/>
+                <svg class="n-house__svg" viewBox="0 0 400 540" xmlns="http://www.w3.org/2000/svg">
+                  <!-- 三角形屋顶：顶点(200,70)，底角(70,210)(330,210) -->
+                  <polygon points="200,70 70,210 330,210" fill="#fffaf5" stroke="#f0c8a0" stroke-width="2"/>
+                  <!-- 正方形：x=70~330, y=210~470 -->
+                  <rect x="70" y="210" width="260" height="260" fill="#fffaf5" stroke="#f0c8a0" stroke-width="2"/>
+                  <line x1="200" y1="210" x2="200" y2="470" stroke="#f0c8a0" stroke-width="1.5"/>
+                  <line x1="70" y1="340" x2="330" y2="340" stroke="#f0c8a0" stroke-width="1.5"/>
 
-                  <text x="200" y="38" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="42" fill="#d97b44">${numerology.outer.top.apex}</text>
-                  <text x="130" y="112" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="36" fill="#d97b44">${numerology.outer.top.left}</text>
-                  <text x="270" y="112" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="36" fill="#d97b44">${numerology.outer.top.right}</text>
-                  <text x="20" y="175" text-anchor="start" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="38" fill="#d97b44">${numerology.formulas.left}</text>
-                  <text x="380" y="175" text-anchor="end" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="38" fill="#d97b44">${numerology.formulas.right}</text>
-                  <text x="200" y="128" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="32" fill="#d97b44">*</text>
-                  <text x="200" y="170" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="58" font-weight="bold" fill="#c82020">${numerology.mainCharacter}</text>
-                  <text x="133" y="265" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.M}</text>
-                  <text x="267" y="265" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.N}</text>
-                  <text x="100" y="395" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.I}</text>
-                  <text x="168" y="395" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.J}</text>
-                  <text x="235" y="395" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.K}</text>
-                  <text x="300" y="395" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.L}</text>
-                  <text x="100" y="488" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="32" fill="#222">${numerology.rawDigits.day}</text>
-                  <text x="178" y="488" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="32" fill="#222">${numerology.rawDigits.month}</text>
-                  <text x="255" y="488" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="32" fill="#222">${numerology.rawDigits.yearFirstHalf}</text>
-                  <text x="325" y="488" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="32" fill="#222">${numerology.rawDigits.yearSecondHalf}</text>
+                  <!-- 最顶端位数字（三角形顶点上方，y=38） -->
+                  <text x="200" y="38" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">${numerology.outer.top.apex}</text>
+
+                  <!-- 左顶外位（三角形左腰外侧，y=110） -->
+                  <text x="130" y="110" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">${numerology.outer.top.left}</text>
+
+                  <!-- 右顶外位（三角形右腰外侧，y=110） -->
+                  <text x="270" y="110" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">${numerology.outer.top.right}</text>
+
+                  <!-- 左公式（三角形左侧外，y=140，此处三角形宽，外侧空间大） -->
+                  <text x="5" y="140" text-anchor="start" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">${numerology.formulas.left}</text>
+
+                  <!-- 右公式（三角形右侧外，y=140） -->
+                  <text x="395" y="140" text-anchor="end" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">${numerology.formulas.right}</text>
+
+                  <!-- 星号（三角形上部中央，y=105） -->
+                  <text x="200" y="105" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">*</text>
+
+                  <!-- 主性格数字（三角形中心偏下，y=170） -->
+                  <text x="200" y="170" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" font-weight="bold" fill="#c82020">${numerology.mainCharacter}</text>
+
+                  <!-- 上层左格中心(135,275)：M -->
+                  <text x="135" y="275" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">${numerology.inner.M}</text>
+
+                  <!-- 上层右格中心(265,275)：N -->
+                  <text x="265" y="275" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">${numerology.inner.N}</text>
+
+                  <!-- 下层左格：I J -->
+                  <text x="110" y="405" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">${numerology.inner.I}</text>
+                  <text x="165" y="405" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">${numerology.inner.J}</text>
+
+                  <!-- 下层右格：K L -->
+                  <text x="235" y="405" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">${numerology.inner.K}</text>
+                  <text x="290" y="405" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#d97b44">${numerology.inner.L}</text>
+
+                  <!-- 底部原始日期数字（正方形下方，y=505） -->
+                  <text x="103" y="505" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#222">${numerology.rawDigits.day}</text>
+                  <text x="168" y="505" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#222">${numerology.rawDigits.month}</text>
+                  <text x="233" y="505" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#222">${numerology.rawDigits.yearFirstHalf}</text>
+                  <text x="298" y="505" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="40" fill="#222">${numerology.rawDigits.yearSecondHalf}</text>
                 </svg>
               </div>
 
