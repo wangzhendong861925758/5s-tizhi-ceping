@@ -910,33 +910,54 @@ function renderDetail() {
             <div class="numerology-card__body">
               <!-- 数字三角形图 -->
               <div class="numerology-triangle">
-                <div class="numerology-diagram">
-                  <!-- 三角形屋顶 -->
-                  <div class="numerology-roof"></div>
-                  <!-- 正方形主体 -->
-                  <div class="numerology-square">
-                    <div class="numerology-cell numerology-cell--m">${numerology.triangle.inner.M}</div>
-                    <div class="numerology-cell numerology-cell--n">${numerology.triangle.inner.N}</div>
-                    <div class="numerology-cell numerology-cell--ij">
-                      <span>${numerology.triangle.inner.I}</span>
-                      <span>${numerology.triangle.inner.J}</span>
-                    </div>
-                    <div class="numerology-cell numerology-cell--kl">
-                      <span>${numerology.triangle.inner.K}</span>
-                      <span>${numerology.triangle.inner.L}</span>
-                    </div>
+                <!-- 上外翼（晚年/天纹线） -->
+                <div class="numerology-top-wing">
+                  <span class="numerology-top-wing__apex">${numerology.outer.top.apex}</span>
+                  <div class="numerology-formula numerology-formula--top">${numerology.formulas.top}</div>
+                  <div class="numerology-top-wing__pair">
+                    <span class="numerology-top-wing__num">${numerology.outer.top.left}</span>
+                    <span class="numerology-top-wing__num">${numerology.outer.top.right}</span>
                   </div>
-                  <!-- 三角形顶部数字标号1、2、3（位置序号，不是计算出的数字） -->
-                  <span class="numerology-star-label numerology-star-label--1">1</span>
-                  <span class="numerology-star-label numerology-star-label--2">2</span>
-                  <span class="numerology-star-label numerology-star-label--3">3</span>
-                  <div class="numerology-star-mark">*</div>
-                  <div class="numerology-main">${numerology.mainCharacter}</div>
-                  <!-- 左侧公式 U=TS，例如 3=57 -->
-                  <div class="numerology-formula numerology-formula--left">${numerology.triangle.left.U}=${numerology.triangle.left.T}${numerology.triangle.left.S}</div>
-                  <!-- 右侧公式 VW=X，例如 18=9 -->
-                  <div class="numerology-formula numerology-formula--right">${numerology.triangle.right.V}${numerology.triangle.right.W}=${numerology.triangle.right.X}</div>
                 </div>
+
+                <!-- 中间区域：左外翼 + 三角形 + 右外翼 -->
+                <div class="numerology-mid-wing">
+                  <!-- 左外翼（事业/父亲线，从下到上：S→T→U） -->
+                  <div class="numerology-side-wing numerology-side-wing--left">
+                    <span class="numerology-wing-num">${numerology.outer.left.apex}</span>
+                    <div class="numerology-formula numerology-formula--left">${numerology.formulas.left}</div>
+                    <span class="numerology-wing-num">${numerology.outer.left.top}</span>
+                    <span class="numerology-wing-num">${numerology.outer.left.bottom}</span>
+                  </div>
+
+                  <!-- 中心三角形+正方形 -->
+                  <div class="numerology-diagram">
+                    <div class="numerology-roof"></div>
+                    <div class="numerology-square">
+                      <div class="numerology-cell numerology-cell--m">${numerology.inner.M}</div>
+                      <div class="numerology-cell numerology-cell--n">${numerology.inner.N}</div>
+                      <div class="numerology-cell numerology-cell--ij">
+                        <span>${numerology.inner.I}</span>
+                        <span>${numerology.inner.J}</span>
+                      </div>
+                      <div class="numerology-cell numerology-cell--kl">
+                        <span>${numerology.inner.K}</span>
+                        <span>${numerology.inner.L}</span>
+                      </div>
+                    </div>
+                    <div class="numerology-star-mark">*</div>
+                    <div class="numerology-main">${numerology.mainCharacter}</div>
+                  </div>
+
+                  <!-- 右外翼（家庭/母亲线，从下到上：W→V→X） -->
+                  <div class="numerology-side-wing numerology-side-wing--right">
+                    <span class="numerology-wing-num">${numerology.outer.right.apex}</span>
+                    <div class="numerology-formula numerology-formula--right">${numerology.formulas.right}</div>
+                    <span class="numerology-wing-num">${numerology.outer.right.top}</span>
+                    <span class="numerology-wing-num">${numerology.outer.right.bottom}</span>
+                  </div>
+                </div>
+
                 <!-- 底部原始日期数字 -->
                 <div class="numerology-triangle__raw">
                   <span>${numerology.rawDigits.day}</span>
@@ -964,11 +985,18 @@ function renderDetail() {
                   </div>
                 </div>
 
-                <!-- 联动数字（联合密码） -->
+                <!-- 联动数字（12组联合码，3行4列） -->
                 <div class="numerology-union">
                   <div class="numerology-union__title">联动数字</div>
-                  <div class="numerology-union__grid">
-                    ${numerology.unionCodes.map(code => `<div class="numerology-union__code">${code}</div>`).join('')}
+                  <div class="numerology-union__body">
+                    ${numerology.unionCodeGroups.map(group => `
+                    <div class="numerology-union__row">
+                      <div class="numerology-union__label">${group.label}</div>
+                      <div class="numerology-union__codes">
+                        ${group.codes.map(code => `<div class="numerology-union__code">${code}</div>`).join('')}
+                      </div>
+                    </div>
+                    `).join('')}
                   </div>
                 </div>
               </div>
