@@ -908,60 +908,34 @@ function renderDetail() {
               <div class="numerology-card__subtitle">基于阳历生日 ${escapeHtml(numerology.birthday)} 计算 · 主性格 ${numerology.mainCharacter} 号人</div>
             </div>
             <div class="numerology-card__body">
-              <!-- 数字房子图（严格按参考图布局） -->
+              <!-- 数字房子图（SVG精确布局，1:1复刻参考图） -->
               <div class="numerology-house">
-                <!-- 顶端数字（最顶端位） -->
-                <div class="n-house__apex">${numerology.outer.top.apex}</div>
-                <!-- 第二行：位置1+左顶外位，位置2+右顶外位 -->
-                <div class="n-house__top-pair">
-                  <div class="n-house__top-pos n-house__top-pos--1">
-                    <span class="n-house__pos-label">1</span>
-                    <span class="n-house__pos-num">${numerology.outer.top.left}</span>
-                  </div>
-                  <div class="n-house__top-pos n-house__top-pos--2">
-                    <span class="n-house__pos-label">2</span>
-                    <span class="n-house__pos-num">${numerology.outer.top.right}</span>
-                  </div>
-                </div>
-                <!-- 第三行：左右公式 -->
-                <div class="n-house__formula-row">
-                  <div class="n-house__formula n-house__formula--left">${numerology.formulas.left}</div>
-                  <div class="n-house__formula n-house__formula--right">${numerology.formulas.right}</div>
-                </div>
-                <!-- 三角屋顶 + 正方形主体 -->
-                <div class="n-house__body">
-                  <!-- 三角形（屋顶） -->
-                  <div class="n-house__roof">
-                    <div class="n-house__star">*</div>
-                    <div class="n-house__main">${numerology.mainCharacter}</div>
-                  </div>
-                  <!-- 正方形（主体） -->
-                  <div class="n-house__square">
-                    <!-- 上层：M 和 N -->
-                    <div class="n-house__row n-house__row--mid">
-                      <div class="n-house__cell n-house__cell--m">${numerology.inner.M}</div>
-                      <div class="n-house__cell n-house__cell--n">${numerology.inner.N}</div>
-                    </div>
-                    <!-- 下层：I J 和 K L -->
-                    <div class="n-house__row n-house__row--bot">
-                      <div class="n-house__cell n-house__cell--ij">
-                        <span>${numerology.inner.I}</span>
-                        <span>${numerology.inner.J}</span>
-                      </div>
-                      <div class="n-house__cell n-house__cell--kl">
-                        <span>${numerology.inner.K}</span>
-                        <span>${numerology.inner.L}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- 底部原始日期数字 -->
-                <div class="n-house__raw">
-                  <span>${numerology.rawDigits.day}</span>
-                  <span>${numerology.rawDigits.month}</span>
-                  <span>${numerology.rawDigits.yearFirstHalf}</span>
-                  <span>${numerology.rawDigits.yearSecondHalf}</span>
-                </div>
+                <svg class="n-house__svg" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+                  <!-- 三角形屋顶：顶点(200,65)，底角(65,200)(335,200) -->
+                  <polygon points="200,65 65,200 335,200" fill="#fffaf5" stroke="#f0c8a0" stroke-width="2"/>
+                  <!-- 正方形：x=65~335, y=200~460 -->
+                  <rect x="65" y="200" width="270" height="260" fill="#fffaf5" stroke="#f0c8a0" stroke-width="2"/>
+                  <line x1="200" y1="200" x2="200" y2="460" stroke="#f0c8a0" stroke-width="1.5"/>
+                  <line x1="65" y1="330" x2="335" y2="330" stroke="#f0c8a0" stroke-width="1.5"/>
+
+                  <text x="200" y="38" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="42" fill="#d97b44">${numerology.outer.top.apex}</text>
+                  <text x="130" y="112" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="36" fill="#d97b44">${numerology.outer.top.left}</text>
+                  <text x="270" y="112" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="36" fill="#d97b44">${numerology.outer.top.right}</text>
+                  <text x="20" y="175" text-anchor="start" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="38" fill="#d97b44">${numerology.formulas.left}</text>
+                  <text x="380" y="175" text-anchor="end" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="38" fill="#d97b44">${numerology.formulas.right}</text>
+                  <text x="200" y="128" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="32" fill="#d97b44">*</text>
+                  <text x="200" y="170" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="58" font-weight="bold" fill="#c82020">${numerology.mainCharacter}</text>
+                  <text x="133" y="265" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.M}</text>
+                  <text x="267" y="265" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.N}</text>
+                  <text x="100" y="395" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.I}</text>
+                  <text x="168" y="395" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.J}</text>
+                  <text x="235" y="395" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.K}</text>
+                  <text x="300" y="395" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="44" fill="#d97b44">${numerology.inner.L}</text>
+                  <text x="100" y="488" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="32" fill="#222">${numerology.rawDigits.day}</text>
+                  <text x="178" y="488" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="32" fill="#222">${numerology.rawDigits.month}</text>
+                  <text x="255" y="488" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="32" fill="#222">${numerology.rawDigits.yearFirstHalf}</text>
+                  <text x="325" y="488" text-anchor="middle" dominant-baseline="central" font-family="Georgia, SimSun, Noto Serif SC, serif" font-size="32" fill="#222">${numerology.rawDigits.yearSecondHalf}</text>
+                </svg>
               </div>
 
               <!-- 核心数字摘要 + 联动数字（左右分栏） -->

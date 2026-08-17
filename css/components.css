@@ -403,170 +403,18 @@
   padding: var(--space-lg);
 }
 
-/* ========== 数字房子图（严格按参考图布局） ========== */
+/* ========== 数字房子图（SVG精确布局，1:1复刻参考图） ========== */
 .numerology-house {
-  position: relative;
-  max-width: 520px;
+  max-width: 440px;
   margin: 0 auto var(--space-lg);
-  padding: 40px 80px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* 最顶端位数字 */
-.n-house__apex {
-  font-size: 38px;
-  font-weight: 900;
-  color: #d35400;
-  font-family: var(--font-serif);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-/* 第二行：位置1+左顶外位，位置2+右顶外位 */
-.n-house__top-pair {
-  display: flex;
-  justify-content: space-between;
-  width: 240px;
-  margin-bottom: 2px;
-}
-
-.n-house__top-pos {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-.n-house__top-pos--1 { align-items: flex-end; padding-right: 8px; }
-.n-house__top-pos--2 { align-items: flex-start; padding-left: 8px; }
-
-.n-house__pos-label {
-  font-size: 18px;
-  color: #e6a46a;
-  font-weight: 500;
-  font-family: var(--font-serif);
-  line-height: 1;
-}
-
-.n-house__pos-num {
-  font-size: 28px;
-  font-weight: 700;
-  color: #d35400;
-  font-family: var(--font-serif);
-  line-height: 1;
-}
-
-/* 第三行：左右公式 */
-.n-house__formula-row {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  position: absolute;
-  top: 72px;
-  left: 0;
-  right: 0;
-  padding: 0 10px;
-}
-
-.n-house__formula {
-  font-size: 28px;
-  color: #d35400;
-  font-family: var(--font-serif);
-  font-weight: 700;
-  white-space: nowrap;
-  letter-spacing: 1px;
-  line-height: 1;
-}
-
-.n-house__formula--left { text-align: right; }
-.n-house__formula--right { text-align: left; }
-
-/* 房子主体（三角形屋顶 + 正方形） */
-.n-house__body {
-  position: relative;
-  width: 240px;
-}
-
-/* 三角形屋顶 */
-.n-house__roof {
-  width: 100%;
-  height: 120px;
-  background: #fffaf5;
-  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-  border: 2px solid #f0c8a0;
-  border-bottom: none;
-  position: relative;
-}
-
-/* 正方形主体 */
-.n-house__square {
-  width: 100%;
-  height: 180px;
-  background: #fffaf5;
-  border: 2px solid #f0c8a0;
-  border-top: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-}
-
-/* 正方形格子 */
-.n-house__cell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 36px;
-  font-weight: 700;
-  color: #e67e22;
-  font-family: var(--font-serif);
-}
-
-.n-house__cell--m { border-right: 1px solid #f0c8a0; border-bottom: 1px solid #f0c8a0; }
-.n-house__cell--n { border-bottom: 1px solid #f0c8a0; }
-.n-house__cell--ij { border-right: 1px solid #f0c8a0; gap: 36px; font-size: 32px; }
-.n-house__cell--kl { gap: 36px; font-size: 32px; }
-
-/* 星号 */
-.n-house__star {
-  position: absolute;
-  top: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 28px;
-  color: #e67e22;
-  font-weight: 700;
-}
-
-/* 主性格数字（三角形中心，红色大字） */
-.n-house__main {
-  position: absolute;
-  top: 55px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 52px;
-  font-weight: 900;
-  color: #c0392b;
-  font-family: var(--font-serif);
-  text-shadow: 0 1px 3px rgba(192, 57, 43, 0.2);
-}
-
-/* 底部原始日期数字 */
-.n-house__raw {
   display: flex;
   justify-content: center;
-  gap: 52px;
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin-top: 16px;
-  font-family: var(--font-serif);
 }
 
-.n-house__raw span {
-  min-width: 40px;
-  text-align: center;
+.n-house__svg {
+  width: 100%;
+  max-width: 440px;
+  height: auto;
 }
 
 /* ========== 核心数字摘要 + 联动数字（左右分栏） ========== */
@@ -689,74 +537,10 @@
 
   .numerology-house {
     max-width: 100%;
-    padding: 30px 60px 0;
   }
 
-  .n-house__apex {
-    font-size: 28px;
-  }
-
-  .n-house__top-pair {
-    width: 180px;
-  }
-
-  .n-house__pos-label {
-    font-size: 14px;
-  }
-
-  .n-house__pos-num {
-    font-size: 22px;
-  }
-
-  .n-house__formula-row {
-    top: 56px;
-    padding: 0 6px;
-  }
-
-  .n-house__formula {
-    font-size: 22px;
-  }
-
-  .n-house__body {
-    width: 180px;
-  }
-
-  .n-house__roof {
-    height: 90px;
-  }
-
-  .n-house__square {
-    height: 136px;
-  }
-
-  .n-house__cell {
-    font-size: 28px;
-  }
-
-  .n-house__cell--ij,
-  .n-house__cell--kl {
-    gap: 24px;
-    font-size: 24px;
-  }
-
-  .n-house__star {
-    font-size: 22px;
-    top: 22px;
-  }
-
-  .n-house__main {
-    font-size: 40px;
-    top: 42px;
-  }
-
-  .n-house__raw {
-    gap: 28px;
-    font-size: 20px;
-    margin-top: 10px;
-  }
-
-  .n-house__raw span {
-    min-width: 32px;
+  .n-house__svg {
+    max-width: 100%;
   }
 
   .numerology-bottom {
