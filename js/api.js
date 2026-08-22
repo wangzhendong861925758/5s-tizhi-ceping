@@ -20,7 +20,9 @@ async function request(url, options = {}) {
     });
     const data = await res.json();
     if (!res.ok || !data.success) {
-      throw new Error(data.message || `请求失败 (${res.status})`);
+      const err = new Error(data.message || `请求失败 (${res.status})`);
+      err.status = res.status;
+      throw err;
     }
     return data.data;
   } catch (err) {
@@ -84,9 +86,20 @@ export const api = {
     });
   },
 
-  /** 验证 6 位凭证是否存在（客户端使用） */
+  /** 验证 6 位凭证是否存在（客户端使用）
+   *  服务端在 Netlify Blobs 多副本未同步时会返回 503，此处自动重试 1 次
+   */
   async verifyCode(code) {
-    return request(`${ADMINS_BASE}/verify?code=${encodeURIComponent(code)}`);
+    try {
+      return await request(`${ADMINS_BASE}/verify?code=${encodeURIComponent(code)}`);
+    } catch (err) {
+      // 5xx 错误（如 503 服务暂不可用）自动重试 1 次，间隔 500ms
+      if (err && err.status >= 500) {
+        await new Promise((r) => setTimeout(r, 500));
+        return request(`${ADMINS_BASE}/verify?code=${encodeURIComponent(code)}`);
+      }
+      throw err;
+    }
   },
 
   /** 保存登录态到 localStorage */

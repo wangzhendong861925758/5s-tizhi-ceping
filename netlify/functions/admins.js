@@ -9,9 +9,10 @@ const STORE_NAME = 'admins';
 
 async function readAll() {
   const store = getStore(STORE_NAME);
-  // 重试机制：Netlify Blobs 冷启动时偶尔返回 null
+  // 重试机制：Netlify Blobs 多副本最终一致性偶尔返回 null
+  // 5 次重试 × 200ms 间隔，总等待 ~1s，覆盖绝大多数不一致窗口
   let raw = null;
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 5; i++) {
     try {
       raw = await store.get('list');
       if (raw) break;
@@ -19,7 +20,7 @@ async function readAll() {
       console.error(`[admins] readAll 第 ${i + 1} 次读取失败:`, e.message);
     }
     // 短暂等待后重试
-    await new Promise((r) => setTimeout(r, 100));
+    await new Promise((r) => setTimeout(r, 200));
   }
   return raw ? JSON.parse(raw) : [];
 }
@@ -133,6 +134,12 @@ export default async (req) => {
         return json({ success: false, message: '凭证不能为空' }, 400);
       }
       const list = await readAll();
+      // 区分"数据暂不可用"与"凭证确实无效"
+      // list 为空可能是 Netlify Blobs 多副本未同步（实际有数据但读到 null）
+      // 返回 503 让客户端可重试，避免误判"凭证无效"
+      if (!list || list.length === 0) {
+        return json({ success: false, message: '服务暂不可用，请稍后重试' }, 503);
+      }
       const admin = list.find((a) => a.code === code);
       if (!admin) {
         return json({ success: false, message: '凭证无效' }, 404);
