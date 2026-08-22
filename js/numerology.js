@@ -109,7 +109,8 @@ export function calculateNumerology(birthdayStr) {
   // ========== 派生数字 ==========
   const innerCode = addDigits(M + N + O);
   const subconsciousCode = addDigits(I + L + O);
-  const laterYearsCode = `${leftTopOuter}${rightTopOuter}${topApex}`;
+  // 晚年数字 = 右外翼数字（V 右上外位 + W 右下外位 + X 右外顶端位）
+  const laterYearsCode = `${V}${W}${X}`;
 
   return {
     birthday: birthdayStr,
